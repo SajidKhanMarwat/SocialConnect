@@ -1,0 +1,2 @@
+﻿1. Entities
+2. Use Cases(Interfaces) - Implementation in the Application Layer

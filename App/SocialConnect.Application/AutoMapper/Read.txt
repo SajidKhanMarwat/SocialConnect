@@ -1,0 +1,4 @@
+﻿
+
+
+This Mapping is only for the SocialConnect.Application Layer Mappings.

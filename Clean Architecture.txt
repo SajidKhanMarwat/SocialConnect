@@ -1,0 +1,25 @@
+Clean Architecture:
+
+Core Layer (Innermost Layer):
+The core layer contains entities, use cases, and business rules.
+It should not have any dependencies on external libraries or frameworks.
+Core layer interfaces (e.g., repository interfaces) define contracts for data access and other external interactions.
+
+Application Layer (Use Case Layer):
+The application layer orchestrates business use cases using entities from the core layer.
+It implements application-specific logic and workflows, utilizing core layer entities and interfaces.
+The application layer may depend on core layer entities and interfaces but should not depend on outer layers.
+
+Outer Layers (Outermost Layers):
+Outer layers, such as the infrastructure layer or presentation layer, contain implementation details and interfaces for interacting with external systems.
+These layers may depend on the core layer and application layer but should not have direct dependencies on each other.
+Infrastructure layer: Contains concrete implementations for data access, external service integration, and other infrastructure concerns. It may depend on the core layer and application layer.
+
+Presentation layer: 
+Handles user interface interactions, web API endpoints, or other presentation-related tasks. It depends on the application layer but should not depend on the infrastructure layer.
+
+Here's a summarized view of the layer dependencies:
+1. Core Layer: No dependencies on outer layers.
+2. Application Layer: Depends on Core Layer.
+3. Infrastructure Layer: Depends on Core Layer and Application Layer.
+4. Presentation Layer: Depends on Infrastructure Layer.

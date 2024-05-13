@@ -1,0 +1,5 @@
+﻿
+
+This Mapping class is Inherited from MappingProfile.cs which is inside the SocialConnect.Application Layer.
+
+Registered this class(Mapping.cs) in the program.cs Services. 
