@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialConnect.Core.Context;
+using SocialConnect.Web.CustomMiddlewares;
 
 namespace SocialConnect.Web
 {
@@ -47,7 +48,9 @@ namespace SocialConnect.Web
             app.MapControllerRoute(
                 name: "Auth",
                 pattern: "{controller=Auth}/{action=Login}/{id?}");
-            
+
+            //Custom build Extension Method SocialConnect.Web/CustomMiddlewares/MiddlewareExtensions.cs
+            app.UseCustomMiddlewareExtension();
 
             //app.MapIdentityApi<User>();
 
