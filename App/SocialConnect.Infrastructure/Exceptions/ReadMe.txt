@@ -1,0 +1,1 @@
+﻿1. We will be using Generic Exceptions handling. There is a library used for this purpose.

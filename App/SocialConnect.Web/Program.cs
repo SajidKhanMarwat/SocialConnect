@@ -1,16 +1,5 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SocialConnect.Application.AutoMapper;
-using SocialConnect.Application.NewFolder.IServices;
-using SocialConnect.Application.NewFolder.Services;
-using SocialConnect.Application.Services.IServices;
-using SocialConnect.Application.Services.Services;
 using SocialConnect.Core.Context;
-using SocialConnect.Core.Entities;
-using SocialConnect.Core.IRepos;
-using SocialConnect.Infrastructure.Repos;
-using SocialConnect.Web.AutoMapper;
 
 namespace SocialConnect.Web
 {
@@ -23,30 +12,16 @@ namespace SocialConnect.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //Connection string
             builder.Services.AddDbContext<SocialDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("SocialConnect")));
 
-            // Register repositories
-            //builder.Services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));//Register GenericRepo for all Entities
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            //AutoMapper
-            builder.Services.AddAutoMapper(typeof(Mapping));
-            //Logs
-            builder.Services.AddScoped<ILogsService,LogsService>();
-            builder.Services.AddScoped<ILogsRepository,LogsRepository>();
+            //Benchmarks
+            //BenchmarkRunner.Run<AuthController>();
+            //BenchmarkRunner.Run<UsersController>();
 
-            //Identity
-            //This will implement Cookies Authentication By Default.
-            builder.Services.AddIdentity<User, IdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-                options.SignIn.RequireConfirmedAccount = false;
-            })
-            .AddEntityFrameworkStores<SocialDbContext>()
-            .AddDefaultTokenProviders();
+            //Adding the DependencyInjection.cs class to the Services Container.
+            builder.Services.AddWebServices();
 
             var app = builder.Build();
 
@@ -65,9 +40,14 @@ namespace SocialConnect.Web
 
             app.UseAuthorization();
 
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Auth}/{action=Login}/{id?}");
+
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                name: "Auth",
+                pattern: "{controller=Auth}/{action=Login}/{id?}");
+            
 
             //app.MapIdentityApi<User>();
 

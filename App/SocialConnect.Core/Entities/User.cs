@@ -14,6 +14,9 @@ public class User : IdentityUser
 
     public DateTime UpdatedOn { get; set; } = DateTime.Now;
 
+    // Relationship with other Entities of this User Entity.
+    // 1 to many, ex: 1 user have multiple Posts and connections etc.
+
     public ICollection<Connection> Connections { get; set; }
 
     public ICollection<Post> Posts { get; set; }

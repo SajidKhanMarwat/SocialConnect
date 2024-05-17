@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using SocialConnect.Application.NewFolder.IServices;
 using SocialConnect.Core.Entities;
 using SocialConnect.Web.Models.ViewModels;
-using System.Security.Claims;
+using BenchmarkDotNet.Attributes;
 
 namespace SocialConnect.Web.Controllers
 {
+    [MemoryDiagnoser]//, ThreadingDiagnoser]
     public class AuthController : BaseController
     {
         #region Fields
@@ -83,6 +84,7 @@ namespace SocialConnect.Web.Controllers
         #endregion
 
         #region User Login
+        [Benchmark]
         [HttpGet]
         public async Task<IActionResult> Login()
         {

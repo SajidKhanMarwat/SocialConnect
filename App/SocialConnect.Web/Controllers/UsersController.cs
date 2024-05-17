@@ -6,16 +6,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using SocialConnect.Core.Entities;
+using BenchmarkDotNet.Attributes;
 
 namespace SocialConnect.Web.Controllers
 {
-    [Authorize]
+    [Authorize, MemoryDiagnoser]
     public class UsersController : BaseController
     {
         #region Fields
         private IUserService _userService;
         private ILogsService _logger;
         private IMemoryCache _memoryCache;
+        private IUserService object1;
+        private ILogsService object2;
+        private MemoryCache memoryCache;
         #endregion
         public UsersController(
             SignInManager<User> signInManager,
@@ -30,6 +34,7 @@ namespace SocialConnect.Web.Controllers
             _memoryCache = memoryCache;
         }
 
+        [Benchmark]
         public async Task<IActionResult> Profile()
         {
             if (_signInManager.IsSignedIn(User))
