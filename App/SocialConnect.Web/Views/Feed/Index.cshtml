@@ -10,7 +10,20 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Links</h2>
+            <strong>Useful Links</strong>
+            <ul>
+                <li>Settings</li>
+                <li>Profile</li>
+                <li>Others</li>
+                <li>Messages
+                    <span class="position-relative">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </span>
+                </li>
+            </ul>
         </div>
         <div class="col-5">
             <div class="card mb-3">
@@ -24,8 +37,32 @@
         </div>
         <div class="col">
             <button class="btn btn-sm btn-outline-secondary" onclick="LogOut()" type="button">LogOut</button>
+            <br />
+            <strong>You may know:</strong>
+            <ol>
+                <li>Sajid</li>
+                <li>Ihtisham</li>
+                <li>User13</li>
+                <li>User</li>
+            </ol>
         </div>
     </div>
+
+
+    <!-- Sidebar widget -->
+    <div class="position-fixed bottom-2 end-0 p-2" style="z-index: 5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Send Message</h5>
+                <div class="mb-5">
+                    <input type="text" class="form-control" id="messageInput" placeholder="Enter your message">
+                </div>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 

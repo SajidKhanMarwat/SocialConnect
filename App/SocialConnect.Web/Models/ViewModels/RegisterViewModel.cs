@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialConnect.Web.Models.ViewModels
 {
@@ -11,9 +12,11 @@ namespace SocialConnect.Web.Models.ViewModels
         public string? ConcurrencyStamp { get; set; }
         public string? SecurityStamp { get; set; }
         public required string PasswordHash { get; set; }
-        public bool EmailConfirmed { get; set; }
-        public string? NormalizedEmail { get; set; }
+        [EmailAddress(ErrorMessage="Invalid email.")]
         public required string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        [Compare("Email", ErrorMessage = "Passwords must match.")]
+        public string? NormalizedEmail { get; set; }
         public string? NormalizedUserName { get; set; }
         public required string UserName { get; set; }
         public bool LockoutEnabled { get; set; }
