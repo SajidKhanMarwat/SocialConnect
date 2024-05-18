@@ -17,9 +17,9 @@ public class User : IdentityUser
     // Relationship with other Entities of this User Entity.
     // 1 to many, ex: 1 user have multiple Posts and connections etc.
 
-    public ICollection<Connection> Connections { get; set; }
+    public ICollection<Connection>? Connections { get; set; }
 
-    public ICollection<Post> Posts { get; set; }
+    public ICollection<Post>? Posts { get; set; }
 
-    public ICollection<UserDetail> UserDetails { get; set; }
+    public ICollection<UserDetail>? UserDetails { get; set; }
 }

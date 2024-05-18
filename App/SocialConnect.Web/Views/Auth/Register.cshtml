@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using SocialConnect.Web.Models.ViewModels
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Registeration";
+}
+
+
+<div>
+    <form asp-action="Registration">
+        <input name="UserName" asp-for="UserName" placeholder="UserName" />
+        <input name="Email" asp-for="Email" placeholder="Email" />
+        <input name="NormalizedUserName" asp-for="NormalizedUserName" placeholder="NormalizedUserName" />
+        <input name="NormalizedEmail" asp-for="NormalizedEmail" placeholder="NormalizedEmail" />
+        <input name="PasswordHash" asp-for="PasswordHash" placeholder="Password" />
+        <input name="PhoneNumber" asp-for="PhoneNumber" placeholder="PhoneNumber" />
+        <button type="submit">Register</button>
+    </form>
+</div>

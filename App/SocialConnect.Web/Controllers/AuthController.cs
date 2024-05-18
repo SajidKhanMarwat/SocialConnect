@@ -41,36 +41,43 @@ namespace SocialConnect.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!_signInManager.IsSignedIn(User))
                 {
-                    var user = _mapper.Map<User>(model);
-                    if (user != null)
+                    if (ModelState.IsValid)
                     {
-                        user.Email.ToLower();
-                        user.EmailConfirmed = true;
-                        user.PhoneNumberConfirmed = true;
-                        var result = await _userManager.CreateAsync(user, model.PasswordHash);
-                        if (result.Succeeded)
+                        var user = _mapper.Map<User>(model);
+                        if (user != null)
                         {
-                            //await _signInManager.SignInAsync(user, isPersistent: false);
-                            _logger.LogInformation("Account created successfully. Please login to your account.");
-                            return RedirectToAction("Login");
+                            user.Email.ToLower();
+                            user.EmailConfirmed = true;
+                            user.PhoneNumberConfirmed = true;
+                            var result = await _userManager.CreateAsync(user, model.PasswordHash);
+                            if (result.Succeeded)
+                            {
+                                //await _signInManager.SignInAsync(user, isPersistent: false);
+                                _logger.LogInformation("Account created successfully. Please login to your account.");
+                                return RedirectToAction("Login");
+                            }
+                            else
+                            {
+                                _logger.LogError("Account can't be created, please try again later.");
+                                return View();
+                            }
                         }
                         else
                         {
-                            _logger.LogError("Account can't be created, please try again later.");
+                            _logger.LogError("Please try again later.");
                             return View();
                         }
                     }
                     else
                     {
-                        _logger.LogError("Please try again later.");
+                        _logger.LogWarning("Fields marked with '*' must be provided.");
                         return View();
                     }
                 }
                 else
                 {
-                    _logger.LogWarning("Fields marked with '*' must be provided.");
                     return View();
                 }
             }
@@ -162,34 +169,34 @@ namespace SocialConnect.Web.Controllers
         #endregion
 
         #region Delete User
-        [HttpGet]
-        public async Task<IActionResult> Delete()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromForm]string userId)
-        {
-            var result = await base.Delete(userId);
-            switch (result.StatusCode)
-            {
-                case StatusCodes.Status202Accepted: return RedirectToAction("Registration");
-                case StatusCodes.Status404NotFound: return View();
-                default: return View();
-            }
-            //if (result.StatusCode == StatusCodes.Status202Accepted)
-            //{
-            //    return RedirectToAction("Registration");
-            //}
-            //else if(result.StatusCode == StatusCodes.Status404NotFound)
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return View();
-            //}
-        }
+        //    [HttpGet]
+        //    public async Task<IActionResult> Delete()
+        //    {
+        //        return View();
+        //    }
+        //    [HttpPost]
+        //    public async Task<IActionResult> Delete([FromForm]string userId)
+        //    {
+        //        var result = await base.Delete(userId);
+        //        switch (result.StatusCode)
+        //        {
+        //            case StatusCodes.Status202Accepted: return RedirectToAction("Registration");
+        //            case StatusCodes.Status404NotFound: return View();
+        //            default: return View();
+        //        }
+        //        //if (result.StatusCode == StatusCodes.Status202Accepted)
+        //        //{
+        //        //    return RedirectToAction("Registration");
+        //        //}
+        //        //else if(result.StatusCode == StatusCodes.Status404NotFound)
+        //        //{
+        //        //    return View();
+        //        //}
+        //        //else
+        //        //{
+        //        //    return View();
+        //        //}
+        //    }
         #endregion
     }
 }

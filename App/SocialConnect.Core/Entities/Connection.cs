@@ -1,4 +1,5 @@
 ﻿using SocialConnect.Core.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace SocialConnect.Core.Entities;
@@ -7,13 +8,15 @@ public class Connection
 {
     public int Id { get; set; }
 
-    public User User { get; set; }
+    public string? UserId { get; set; }
+    public User? User { get; set; }
 
-    //public User? Friend { get; set; } // Assuming a connection is between two users
+    public string? FriendWithId { get; set; }
+    public User? FriendWith { get; set; }
 
-    public ConnectionStatus Status { get; set; }
+    public ConnectionStatus Status { get; set; } = ConnectionStatus.Default;
 
-    public DateTime? CreatedOn { get; set; }
+    public DateTime? CreatedOn { get; set; } = DateTime.Now;
 
     public DateTime? AcceptedOn { get; set; }
 
