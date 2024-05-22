@@ -1,6 +1,6 @@
 ﻿function LogOut() {
     $.ajax({
-        url: "/Feed/Logout",
+        url: "/Auth/Logout",
         dataType: 'json',
         success: function (response) {
             if (response == 200) {

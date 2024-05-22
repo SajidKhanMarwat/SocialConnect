@@ -12,8 +12,8 @@ namespace SocialConnect.Web.Controllers
     public class AuthController : BaseController
     {
         #region Fields
-        private IUserService _userServiceContext;
-        private ILogger<AuthController> _logger;
+            private IUserService _userServiceContext;
+            private ILogger<AuthController> _logger;
         #endregion
 
         #region Constructor
@@ -110,7 +110,6 @@ namespace SocialConnect.Web.Controllers
             try
             {
                 ViewData["ReturnURL"] = returnUrl;
-                //if (!ClaimsPrincipal.Current.Identity.IsAuthenticated)
                 if (ModelState.IsValid)
                 {
                     if (!_signInManager.IsSignedIn(User))
@@ -118,13 +117,15 @@ namespace SocialConnect.Web.Controllers
                         var user = await _signInManager.UserManager.FindByEmailAsync(model.Email);
                         if (user != null)
                         {
-                            var result = await _signInManager.PasswordSignInAsync(
-                            user,
-                            model.Password,
-                            model.RememberMe, lockoutOnFailure: false);
+                            var result = await _signInManager
+                                .PasswordSignInAsync(
+                                user,
+                                model.Password,
+                                model.RememberMe, 
+                                lockoutOnFailure: false);
                             if (result.Succeeded)
                             {
-                                _logger.LogInformation("Redirecting to your feeds.");
+                                _logger.LogInformation("Redirecting to Feeds.");
                                 return RedirectToAction(nameof(FeedController.Index), "Feed");
                             }
                             else
@@ -165,6 +166,15 @@ namespace SocialConnect.Web.Controllers
                 return View();
                 //throw;
             }
+        }
+        #endregion
+
+        #region LogOut
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            bool isLoggedOut = await LogOut();
+            return isLoggedOut ? Ok(StatusCodes.Status200OK) : BadRequest(StatusCodes.Status400BadRequest);
         }
         #endregion
 

@@ -52,8 +52,6 @@ namespace SocialConnect.Web
             //Custom build Extension Method SocialConnect.Web/CustomMiddlewares/MiddlewareExtensions.cs
             app.UseCustomMiddlewareExtension();
 
-            //app.MapIdentityApi<User>();
-
             app.Run();
         }
     }

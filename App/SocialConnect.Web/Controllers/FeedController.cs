@@ -25,18 +25,5 @@ namespace SocialConnect.Web.Controllers
             }
             
         }
-        [HttpGet]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            if (_signInManager.SignOutAsync().IsCompletedSuccessfully)
-            {
-                return Ok(StatusCodes.Status200OK);
-            }
-            else
-            {
-                return Ok(StatusCodes.Status400BadRequest);
-            }
-        }
     }
 }
