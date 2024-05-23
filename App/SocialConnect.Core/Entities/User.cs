@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SocialConnect.Core.Enums;
 
 namespace SocialConnect.Core.Entities;
 

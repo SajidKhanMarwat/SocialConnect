@@ -43,7 +43,14 @@ namespace SocialConnect.Web.Controllers
                 if (loggedUserId != null)
                 {
                     var user = await _signInManager.UserManager.FindByIdAsync(loggedUserId);
-                    return user != null ? View(user) : View();
+                    if (user != null)
+                    {
+                        return View(user);
+                    }
+                    else
+                    {
+                        return View();
+                    }
                 }
                 else
                 {
