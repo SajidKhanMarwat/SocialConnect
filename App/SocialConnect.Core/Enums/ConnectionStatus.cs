@@ -8,9 +8,9 @@ namespace SocialConnect.Core.Enums
 {
     public enum ConnectionStatus
     {
-        Default,
-        Pending,
-        Accepted,
-        Rejected
+        Pending = 1,
+        Accepted = 2,
+        Rejected = 3,
+        Connected = 4,
     }
 }

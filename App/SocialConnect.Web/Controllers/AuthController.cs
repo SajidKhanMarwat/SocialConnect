@@ -51,7 +51,9 @@ namespace SocialConnect.Web.Controllers
                             user.Email.ToLower();
                             user.EmailConfirmed = true;
                             user.PhoneNumberConfirmed = true;
+                            user.UserRole.NormalUser.ToString(); //Adding role for this user.
                             var result = await _userManager.CreateAsync(user, model.PasswordHash);
+                            //return result.Succeeded ? RedirectToAction("Login") : View();
                             if (result.Succeeded)
                             {
                                 //await _signInManager.SignInAsync(user, isPersistent: false);

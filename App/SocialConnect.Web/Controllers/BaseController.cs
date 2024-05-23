@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +62,7 @@ namespace SocialConnect.Web.Controllers
                         ? new JsonResult(result)
                         {
                             Value = result,
-                            StatusCode = StatusCodes.Status303SeeOther
+                            StatusCode = StatusCodes.Status202Accepted
                         } : new JsonResult(result)
                         {
                             Value = result,
@@ -102,10 +101,7 @@ namespace SocialConnect.Web.Controllers
         #region Redirect To Local URL
         protected async Task<IActionResult> RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) : RedirectToAction(nameof(HomeController.Index), "Home");
         }
         #endregion
     }

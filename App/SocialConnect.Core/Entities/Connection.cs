@@ -14,7 +14,7 @@ public class Connection
     public string? FriendWithId { get; set; }
     public User? FriendWith { get; set; }
 
-    public ConnectionStatus Status { get; set; } = ConnectionStatus.Default;
+    public ConnectionStatus? FriendShipStatus { get; set; }
 
     public DateTime? CreatedOn { get; set; } = DateTime.Now;
 

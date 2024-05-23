@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SocialConnect.Core.Enums;
 
 namespace SocialConnect.Core.Entities;
 
@@ -21,5 +22,6 @@ public class User : IdentityUser
 
     public ICollection<Post>? Posts { get; set; }
 
-    public ICollection<UserDetail>? UserDetails { get; set; }
+    public UserDetail? UserDetails { get; set; }
+    public required UserRole UserRole { get; set; }
 }
