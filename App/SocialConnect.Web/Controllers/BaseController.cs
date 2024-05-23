@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +62,7 @@ namespace SocialConnect.Web.Controllers
                     {
                         return new JsonResult(result) 
                         {
+<<<<<<< Updated upstream
                             Value = result, 
                             StatusCode = StatusCodes.Status202Accepted
                         };
@@ -70,6 +70,11 @@ namespace SocialConnect.Web.Controllers
                     else
                     {
                         return new JsonResult(result)
+=======
+                            Value = result,
+                            StatusCode = StatusCodes.Status202Accepted
+                        } : new JsonResult(result)
+>>>>>>> Stashed changes
                         {
                             Value = result,
                             StatusCode = StatusCodes.Status303SeeOther
@@ -110,6 +115,7 @@ namespace SocialConnect.Web.Controllers
         #region Redirect To Local URL
         private async Task<IActionResult> RedirectToLocal(string returnUrl)
         {
+<<<<<<< Updated upstream
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
@@ -118,6 +124,9 @@ namespace SocialConnect.Web.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+=======
+            return Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) : RedirectToAction(nameof(HomeController.Index), "Home");
+>>>>>>> Stashed changes
         }
         #endregion
     }

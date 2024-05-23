@@ -8,7 +8,11 @@ public class Connection
 
     public bool IsMutual { get; set; }
 
+<<<<<<< Updated upstream
     public bool IsRequestPending { get; set; }
+=======
+    public ConnectionStatus? FriendShipStatus { get; set; }
+>>>>>>> Stashed changes
 
     public DateTime CreatedOn { get; set; }
 

@@ -51,9 +51,29 @@ namespace SocialConnect.Web.Controllers
                         var result = await _userManager.CreateAsync(user, model.PasswordHash);
                         if (result.Succeeded)
                         {
+<<<<<<< Updated upstream
                             //await _signInManager.SignInAsync(user, isPersistent: false);
                             _logger.LogInformation("Account created successfully. Please login to your account.");
                             return RedirectToAction("Login");
+=======
+                            user.Email.ToLower();
+                            user.EmailConfirmed = true;
+                            user.PhoneNumberConfirmed = true;
+                            user.UserRole.NormalUser.ToString(); //Adding role for this user.
+                            var result = await _userManager.CreateAsync(user, model.PasswordHash);
+                            //return result.Succeeded ? RedirectToAction("Login") : View();
+                            if (result.Succeeded)
+                            {
+                                //await _signInManager.SignInAsync(user, isPersistent: false);
+                                _logger.LogInformation("Account created successfully. Please login to your account.");
+                                return RedirectToAction("Login");
+                            }
+                            else
+                            {
+                                _logger.LogError("Account can't be created, please try again later.");
+                                return View();
+                            }
+>>>>>>> Stashed changes
                         }
                         else
                         {

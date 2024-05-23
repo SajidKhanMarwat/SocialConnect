@@ -8,6 +8,7 @@ namespace SocialConnect.Core.Entities;
 
 public class UserRole : IdentityRole
 {
+    public string NormalUser { get; set; }
     public User User { get; set; }
 
     public bool Admin { get; set; }
