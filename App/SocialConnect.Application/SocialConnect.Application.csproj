@@ -14,4 +14,8 @@
     <ProjectReference Include="..\SocialConnect.Core\SocialConnect.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

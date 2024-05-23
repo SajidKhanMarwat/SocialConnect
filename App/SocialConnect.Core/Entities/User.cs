@@ -15,16 +15,13 @@ public class User : IdentityUser
 
     public DateTime UpdatedOn { get; set; } = DateTime.Now;
 
-    public ICollection<Connection> Connections { get; set; }
+    // Relationship with other Entities of this User Entity.
+    // 1 to many, ex: 1 user have multiple Posts and connections etc.
 
-    public ICollection<Post> Posts { get; set; }
+    public ICollection<Connection>? Connections { get; set; }
 
-<<<<<<< Updated upstream
-    public ICollection<UserDetail> UserDetails { get; set; }
-=======
     public ICollection<Post>? Posts { get; set; }
 
     public UserDetail? UserDetails { get; set; }
     public required UserRole UserRole { get; set; }
->>>>>>> Stashed changes
 }

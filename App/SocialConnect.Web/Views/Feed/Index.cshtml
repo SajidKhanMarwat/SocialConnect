@@ -1,84 +1,65 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
-
-
-<style>
-        /* Basic CSS styles for layout */
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .column {
-            flex: 1;
-            margin: 0 10px;
-        }
-
-        .left-column {
-            flex-basis: 20%;
-        }
-
-        .middle-column {
-            flex-basis: 60%;
-        }
-
-        .right-column {
-            flex-basis: 20%;
-        }
-
-        .links {
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .posts {
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .other-content {
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
 
 
 <div class="container">
-    <!-- Left column with links -->
-    <div class="column left-column">
-        <div class="links">
-            <h3>Navigation</h3>
+    <div class="row">
+        <div class="col">
+            <strong>Useful Links</strong>
             <ul>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">More</a></li>
+                <li>Settings</li>
+                <li>Profile</li>
+                <li>Others</li>
+                <li>Messages
+                    <span class="position-relative">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </span>
+                </li>
             </ul>
         </div>
-    </div>
-
-    <!-- Middle column with posts -->
-    <div class="column middle-column">
-        <div class="posts">
-            <h3>Posts</h3>
-            <!-- Display posts here -->
+        <div class="col-5">
+            <div class="card mb-3">
+                @* <img src="..." class="card-img-top" alt="..."> *@
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <button class="btn btn-sm btn-outline-secondary" onclick="LogOut()" type="button">LogOut</button>
+            <br />
+            <strong>You may know:</strong>
+            <ol>
+                <li>Sajid</li>
+                <li>Ihtisham</li>
+                <li>User13</li>
+                <li>User</li>
+            </ol>
         </div>
     </div>
 
-    <!-- Right column with other content -->
-    <div class="column right-column">
-        <div class="other-content">
-            <h3>Other Content</h3>
-            <!-- Display other content here -->
+
+    <!-- Sidebar widget -->
+    <div class="position-fixed bottom-2 end-0 p-2" style="z-index: 5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Send Message</h5>
+                <div class="mb-5">
+                    <input type="text" class="form-control" id="messageInput" placeholder="Enter your message">
+                </div>
+                <button type="button" class="btn btn-primary">Send</button>
+            </div>
         </div>
     </div>
+
+
 </div>
+
+
+<script src="/FeedController/FeedScripts.js"></script>

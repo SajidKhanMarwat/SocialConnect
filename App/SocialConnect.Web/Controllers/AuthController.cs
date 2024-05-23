@@ -4,15 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using SocialConnect.Application.NewFolder.IServices;
 using SocialConnect.Core.Entities;
 using SocialConnect.Web.Models.ViewModels;
-using System.Security.Claims;
+using BenchmarkDotNet.Attributes;
 
 namespace SocialConnect.Web.Controllers
 {
+    [MemoryDiagnoser]//, ThreadingDiagnoser]
     public class AuthController : BaseController
     {
         #region Fields
-        private IUserService _userServiceContext;
-        private ILogger<AuthController> _logger;
+            private IUserService _userServiceContext;
+            private ILogger<AuthController> _logger;
         #endregion
 
         #region Constructor
@@ -40,22 +41,13 @@ namespace SocialConnect.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!_signInManager.IsSignedIn(User))
                 {
-                    var user = _mapper.Map<User>(model);
-                    if (user != null)
+                    if (ModelState.IsValid)
                     {
-                        user.Email.ToLower();
-                        user.EmailConfirmed = true;
-                        user.PhoneNumberConfirmed = true;
-                        var result = await _userManager.CreateAsync(user, model.PasswordHash);
-                        if (result.Succeeded)
+                        var user = _mapper.Map<User>(model);
+                        if (user != null)
                         {
-<<<<<<< Updated upstream
-                            //await _signInManager.SignInAsync(user, isPersistent: false);
-                            _logger.LogInformation("Account created successfully. Please login to your account.");
-                            return RedirectToAction("Login");
-=======
                             user.Email.ToLower();
                             user.EmailConfirmed = true;
                             user.PhoneNumberConfirmed = true;
@@ -73,23 +65,21 @@ namespace SocialConnect.Web.Controllers
                                 _logger.LogError("Account can't be created, please try again later.");
                                 return View();
                             }
->>>>>>> Stashed changes
                         }
                         else
                         {
-                            _logger.LogError("Account can't be created, please try again later.");
+                            _logger.LogError("Please try again later.");
                             return View();
                         }
                     }
                     else
                     {
-                        _logger.LogError("Please try again later.");
+                        _logger.LogWarning("Fields marked with '*' must be provided.");
                         return View();
                     }
                 }
                 else
                 {
-                    _logger.LogWarning("Fields marked with '*' must be provided.");
                     return View();
                 }
             }
@@ -103,6 +93,7 @@ namespace SocialConnect.Web.Controllers
         #endregion
 
         #region User Login
+        [Benchmark]
         [HttpGet]
         public async Task<IActionResult> Login()
         {
@@ -121,7 +112,6 @@ namespace SocialConnect.Web.Controllers
             try
             {
                 ViewData["ReturnURL"] = returnUrl;
-                //if (!ClaimsPrincipal.Current.Identity.IsAuthenticated)
                 if (ModelState.IsValid)
                 {
                     if (!_signInManager.IsSignedIn(User))
@@ -129,13 +119,15 @@ namespace SocialConnect.Web.Controllers
                         var user = await _signInManager.UserManager.FindByEmailAsync(model.Email);
                         if (user != null)
                         {
-                            var result = await _signInManager.PasswordSignInAsync(
-                            user,
-                            model.Password,
-                            model.RememberMe, lockoutOnFailure: false);
+                            var result = await _signInManager
+                                .PasswordSignInAsync(
+                                user,
+                                model.Password,
+                                model.RememberMe, 
+                                lockoutOnFailure: false);
                             if (result.Succeeded)
                             {
-                                _logger.LogInformation("Redirecting to your feeds.");
+                                _logger.LogInformation("Redirecting to Feeds.");
                                 return RedirectToAction(nameof(FeedController.Index), "Feed");
                             }
                             else
@@ -179,35 +171,44 @@ namespace SocialConnect.Web.Controllers
         }
         #endregion
 
-        #region Delete User
+        #region LogOut
         [HttpGet]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> Logout()
         {
-            return View();
+            bool isLoggedOut = await LogOut();
+            return isLoggedOut ? Ok(StatusCodes.Status200OK) : BadRequest(StatusCodes.Status400BadRequest);
         }
-        [HttpPost]
-        public async Task<IActionResult> Delete([FromForm]string userId)
-        {
-            var result = await base.Delete(userId);
-            switch (result.StatusCode)
-            {
-                case StatusCodes.Status202Accepted: return RedirectToAction("Registration");
-                case StatusCodes.Status404NotFound: return View();
-                default: return View();
-            }
-            //if (result.StatusCode == StatusCodes.Status202Accepted)
-            //{
-            //    return RedirectToAction("Registration");
-            //}
-            //else if(result.StatusCode == StatusCodes.Status404NotFound)
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return View();
-            //}
-        }
+        #endregion
+
+        #region Delete User
+        //    [HttpGet]
+        //    public async Task<IActionResult> Delete()
+        //    {
+        //        return View();
+        //    }
+        //    [HttpPost]
+        //    public async Task<IActionResult> Delete([FromForm]string userId)
+        //    {
+        //        var result = await base.Delete(userId);
+        //        switch (result.StatusCode)
+        //        {
+        //            case StatusCodes.Status202Accepted: return RedirectToAction("Registration");
+        //            case StatusCodes.Status404NotFound: return View();
+        //            default: return View();
+        //        }
+        //        //if (result.StatusCode == StatusCodes.Status202Accepted)
+        //        //{
+        //        //    return RedirectToAction("Registration");
+        //        //}
+        //        //else if(result.StatusCode == StatusCodes.Status404NotFound)
+        //        //{
+        //        //    return View();
+        //        //}
+        //        //else
+        //        //{
+        //        //    return View();
+        //        //}
+        //    }
         #endregion
     }
 }

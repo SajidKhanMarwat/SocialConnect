@@ -1,2 +1,3 @@
 ﻿1. Entities
 2. Use Cases(Interfaces) - Implementation in the Application Layer
+3. Enums for the Entities

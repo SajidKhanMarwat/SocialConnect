@@ -53,33 +53,21 @@ namespace SocialConnect.Web.Controllers
         {
             try
             {
-                var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+                var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();                
                 if (user != null)
                 {
                     user.IsDeleted = true;
                     var result = await _userManager.DeleteAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return new JsonResult(result) 
+                    return result.Succeeded
+                        ? new JsonResult(result)
                         {
-<<<<<<< Updated upstream
-                            Value = result, 
-                            StatusCode = StatusCodes.Status202Accepted
-                        };
-                    }
-                    else
-                    {
-                        return new JsonResult(result)
-=======
                             Value = result,
                             StatusCode = StatusCodes.Status202Accepted
                         } : new JsonResult(result)
->>>>>>> Stashed changes
                         {
                             Value = result,
                             StatusCode = StatusCodes.Status303SeeOther
                         };
-                    }
                 }
                 else
                 {
@@ -98,35 +86,22 @@ namespace SocialConnect.Web.Controllers
         #endregion
 
         #region LogOut Current User
-        public async Task<int> LogOut()
+        [HttpGet]
+        protected async Task<bool> LogOut()
         {
             if (_signInManager.IsSignedIn(User))
             {
                 await _signInManager.SignOutAsync();
-                return StatusCodes.Status202Accepted;
+                return true;
             }
-            else
-            {
-                return StatusCodes.Status401Unauthorized;
-            }
+            return false;
         }
         #endregion
 
         #region Redirect To Local URL
-        private async Task<IActionResult> RedirectToLocal(string returnUrl)
+        protected async Task<IActionResult> RedirectToLocal(string returnUrl)
         {
-<<<<<<< Updated upstream
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-=======
             return Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) : RedirectToAction(nameof(HomeController.Index), "Home");
->>>>>>> Stashed changes
         }
         #endregion
     }

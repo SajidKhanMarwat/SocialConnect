@@ -12,10 +12,18 @@ namespace SocialConnect.Web.Controllers
         public FeedController(SignInManager<User> signInManager, UserManager<User> userManager, IMapper mapper) : base(signInManager, userManager, mapper)
         {
         }
-
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
     }
 }

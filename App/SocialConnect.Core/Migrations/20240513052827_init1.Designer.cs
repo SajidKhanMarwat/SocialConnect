@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialConnect.Core.Context;
 
@@ -11,9 +12,11 @@ using SocialConnect.Core.Context;
 namespace SocialConnect.Core.Migrations
 {
     [DbContext(typeof(SocialDbContext))]
-    partial class SocialDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513052827_init1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,35 +167,31 @@ namespace SocialConnect.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("AcceptedOn")
+                    b.Property<DateTime>("AcceptedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FriendWithId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("RejectedOn")
+                    b.Property<bool>("IsMutual")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRequestPending")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RejectedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FriendWithId");
 
                     b.HasIndex("UserId");
 
@@ -433,19 +432,9 @@ namespace SocialConnect.Core.Migrations
 
             modelBuilder.Entity("SocialConnect.Core.Entities.Connection", b =>
                 {
-                    b.HasOne("SocialConnect.Core.Entities.User", "FriendWith")
-                        .WithMany()
-                        .HasForeignKey("FriendWithId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SocialConnect.Core.Entities.User", "User")
                         .WithMany("Connections")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FriendWith");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
