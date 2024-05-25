@@ -21,6 +21,5 @@ public class User : IdentityUser
 
     public ICollection<Post>? Posts { get; set; }
 
-    public UserDetail? UserDetails { get; set; }
-    public required UserRole UserRole { get; set; }
+    public UserRole? UserRole { get; set; }
 }
