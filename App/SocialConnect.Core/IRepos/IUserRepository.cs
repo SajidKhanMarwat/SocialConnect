@@ -11,6 +11,7 @@ namespace SocialConnect.Core.IRepos
     public interface IUserRepository
     {
         Task<User> GetUserByIdAsync(int userId);
+        Task<List<User>> GetUserBySearch(string search);
         Task<User> GetUserByEmailAsync(string email);
         Task<ICollection<User>> GetAllUsersAsync();
         Task<bool> RegisterUserAsync(User user);

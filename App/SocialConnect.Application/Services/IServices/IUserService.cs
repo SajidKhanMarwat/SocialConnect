@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialConnect.Application.NewFolder.IServices
+namespace SocialConnect.Application.IServices
 {
     public interface IUserService
     {
-        Task<UserDTO> GetUserById(int userId);
+        Task<UserDTO> GetUserByIdAsync(int userId);
+        Task<List<UserDTO>> FindUserByNameAsync(string userName);
         ICollection<UserDTO> GetAll();
         Task<UserDTO> GetUserByEmail(string email);
         Task<bool> RegisterNewUser(UserDTO userDTO);

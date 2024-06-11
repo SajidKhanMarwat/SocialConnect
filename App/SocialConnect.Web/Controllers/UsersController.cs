@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using SocialConnect.Application.NewFolder.IServices;
 using SocialConnect.Application.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using SocialConnect.Core.Entities;
 using BenchmarkDotNet.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using SocialConnect.Application.IServices;
 
 namespace SocialConnect.Web.Controllers
 {
@@ -25,9 +26,10 @@ namespace SocialConnect.Web.Controllers
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             IUserService userService,
+            IServiceProvider serviceProvider,
             ILogsService logger,
-            IMemoryCache memoryCache,
-            IMapper mapper) : base(signInManager, userManager, mapper)
+        IMemoryCache memoryCache,
+            IMapper mapper) : base(signInManager, userManager, serviceProvider, mapper)
         {
             _userService = userService;
             _logger = logger;

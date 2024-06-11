@@ -32,11 +32,6 @@ namespace SocialConnect.Core.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -53,10 +48,6 @@ namespace SocialConnect.Core.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", "sc");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -179,6 +170,9 @@ namespace SocialConnect.Core.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FriendShipStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("FriendWithId")
                         .HasColumnType("nvarchar(255)");
 
@@ -284,13 +278,19 @@ namespace SocialConnect.Core.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsLocked")
+                    b.Property<bool?>("IsLocked")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -329,9 +329,6 @@ namespace SocialConnect.Core.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UserRoleId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -341,8 +338,6 @@ namespace SocialConnect.Core.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserRoleId");
 
                     b.ToTable("AspNetUsers", "sc");
                 });
@@ -387,22 +382,6 @@ namespace SocialConnect.Core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserDetails", "sc");
-                });
-
-            modelBuilder.Entity("SocialConnect.Core.Entities.UserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<bool>("Admin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Editor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Reader")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -480,15 +459,6 @@ namespace SocialConnect.Core.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SocialConnect.Core.Entities.User", b =>
-                {
-                    b.HasOne("SocialConnect.Core.Entities.UserRole", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId");
-
-                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("SocialConnect.Core.Entities.UserDetail", b =>

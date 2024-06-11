@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using SocialConnect.Application.DTOs.User;
-using SocialConnect.Application.NewFolder.IServices;
+using SocialConnect.Application.IServices;
 using SocialConnect.Application.Services.IServices;
 using SocialConnect.Web.Controllers;
 using System;

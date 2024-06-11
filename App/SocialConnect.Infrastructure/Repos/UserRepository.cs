@@ -11,8 +11,10 @@ namespace SocialConnect.Infrastructure.Repos
         private ILogsRepository _logs;
         public UserRepository(SocialDbContext context, ILogsRepository logs)
         {
-            _context = context;
-            _logs = logs;
+            ArgumentNullException.ThrowIfNull(context, nameof(context));
+            ArgumentNullException.ThrowIfNull(logs, nameof(logs));
+            _context = context; //?? throw new ArgumentNullException(nameof(context));
+            _logs = logs; //?? throw new ArgumentNullException(nameof(logs));
         }
         public async Task<User?> GetUserByIdAsync(int userId)
         {
@@ -95,6 +97,13 @@ namespace SocialConnect.Infrastructure.Repos
             {
                 return false;
             }
+        }
+
+        public async Task<List<User>> GetUserBySearch(string search)
+        {
+            //var result = _context.Users.AsQueryable<User>().Where(u => u.UserName.Contains(search));
+            var result = await _context.Users.AsQueryable().Where(u => u.UserName.Contains(search)).ToListAsync();
+            return result;
         }
     }
 }

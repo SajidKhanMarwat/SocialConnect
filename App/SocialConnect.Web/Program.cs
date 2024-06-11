@@ -22,7 +22,7 @@ namespace SocialConnect.Web
             //BenchmarkRunner.Run<UsersController>();
 
             //Adding the DependencyInjection.cs class to the Services Container.
-            builder.Services.AddWebServices();
+            builder.Services.AddCustomServices();
 
             var app = builder.Build();
 
@@ -38,7 +38,7 @@ namespace SocialConnect.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //app.MapControllerRoute(
@@ -51,7 +51,6 @@ namespace SocialConnect.Web
 
             //Custom build Extension Method SocialConnect.Web/CustomMiddlewares/MiddlewareExtensions.cs
             app.UseCustomMiddlewareExtension();
-
             app.Run();
         }
     }

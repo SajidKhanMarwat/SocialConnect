@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SocialConnect.Application.NewFolder.IServices;
+using SocialConnect.Application.IServices;
 using SocialConnect.Application.NewFolder.Services;
 using SocialConnect.Application.Services.IServices;
 using SocialConnect.Application.Services.Services;
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddWebServices(this IServiceCollection services)
+        public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
             // Register repositories
             //builder.Services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));//Register GenericRepo for all Entities
@@ -31,11 +31,6 @@ namespace Microsoft.Extensions.DependencyInjection
             //Identity
             //This will implement Cookies Authentication By Default.
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Auth/Login";
-            });
-
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -45,6 +40,13 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddEntityFrameworkStores<SocialDbContext>()
             .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                //options.AccessDeniedPath = "/Auth/AccessDenied";
+            });
+
 
 
             return services;

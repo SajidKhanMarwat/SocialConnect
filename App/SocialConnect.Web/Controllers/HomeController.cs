@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SocialConnect.Application.NewFolder.IServices;
+using SocialConnect.Application.IServices;
 using SocialConnect.Web.Models;
 using System.Diagnostics;
 

@@ -12,8 +12,8 @@ using SocialConnect.Core.Context;
 namespace SocialConnect.Core.Migrations
 {
     [DbContext(typeof(SocialDbContext))]
-    [Migration("20240523082854_i1")]
-    partial class i1
+    [Migration("20240528113109_ini")]
+    partial class ini
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,6 +182,9 @@ namespace SocialConnect.Core.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("FriendShipStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("FriendWithId")
                         .HasColumnType("nvarchar(255)");
 
@@ -287,13 +290,16 @@ namespace SocialConnect.Core.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsLocked")
+                    b.Property<bool?>("IsLocked")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -395,15 +401,6 @@ namespace SocialConnect.Core.Migrations
             modelBuilder.Entity("SocialConnect.Core.Entities.UserRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<bool>("Admin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Editor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Reader")
-                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("UserRole");
                 });

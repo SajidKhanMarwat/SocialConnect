@@ -1,25 +1,26 @@
-﻿using SocialConnect.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialConnect.Core.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialConnect.Application.DTOs.User
 {
     public record UserDTO
         (
-            int Id,
-            string? Name,
-            string? Email
-            //string Password,
-            //bool IsActive,
-            //bool IsDeleted,
-            //bool IsLocked,
-            //DateTime CreatedOn,
-            //DateTime UpdatedOn,
-            //IQueryable<Posts> User_Posts,
-            //ICollection<UserRoles> User_Roles,
-            //ICollection<Connections> User_Connections
+            string Id,
+            string Name,
+            DateTimeOffset? LockoutEnd,
+            bool TwoFactorEnabled,
+            bool PhoneNumberConfirmed,
+            string? PhoneNumber,
+            string? ConcurrencyStamp,
+            string? SecurityStamp,
+            Gender Gender,
+            string FullName,
+            string Email,
+            bool EmailConfirmed,
+            string? NormalizedEmail,
+            string? NormalizedUserName,
+            string UserName,
+            bool LockoutEnabled,
+            int AccessFailedCount
         );
 }

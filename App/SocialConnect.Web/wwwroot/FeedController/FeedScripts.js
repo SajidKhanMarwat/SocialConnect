@@ -13,3 +13,21 @@
         }
     });
 }
+
+function UserSearch() {
+    var input = $('#searchInput').val();
+    debugger;
+    $.ajax({
+        url: "/Feed/SearchUser/",
+        type: "GET",
+        contentType: "application/json",
+        data: { search: input },
+        success: function (response) {
+            var res = response;
+            debugger
+            if (response != null) {
+
+            }
+        }
+    })
+}

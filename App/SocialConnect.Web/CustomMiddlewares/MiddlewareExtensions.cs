@@ -1,4 +1,5 @@
 ﻿using SocialConnect.Web.CustomMiddlewares._404NotFound;
+using SocialConnect.Web.CustomMiddlewares.GlobalException;
 
 namespace SocialConnect.Web.CustomMiddlewares
 {
@@ -7,7 +8,9 @@ namespace SocialConnect.Web.CustomMiddlewares
         // Extension method used to add the middleware to the HTTP request pipeline.
         public static IApplicationBuilder UseCustomMiddlewareExtension(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<NotFoundMiddleware>();
+            builder.UseMiddleware<NotFoundMiddleware>();
+            builder.UseMiddleware<GlobalExceptionHandler>();
+            return builder;
         }
     }
 }

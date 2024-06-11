@@ -1,4 +1,5 @@
-﻿@using SocialConnect.Web.Models.ViewModels
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialConnect.Web.Models.ViewModels
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -8,18 +9,129 @@
 
 @model RegisterViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Regesteration";
+    var errors = ViewBag.Errors as IEnumerable<IdentityError>;
 }
 
 
-<div>
-    <form asp-action="Registration">
-        <input name="UserName" asp-for="UserName" placeholder="UserName" />
-        <input name="Email" asp-for="Email" placeholder="Email" />
-        <input name="NormalizedUserName" asp-for="NormalizedUserName" placeholder="NormalizedUserName" />
-        <input name="NormalizedEmail" asp-for="NormalizedEmail" placeholder="NormalizedEmail" />
-        <input name="PasswordHash" asp-for="PasswordHash" placeholder="Password" />
-        <input name="PhoneNumber" asp-for="PhoneNumber" placeholder="PhoneNumber" />
-        <button type="submit">Register</button>
+@if (ViewData["EmailExists"] != null)
+{
+    <div class="alert alert-dismissible alert-warning">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <h4 class="alert-heading">Warning!</h4>
+        <p class="mb-0">@Html.Raw(ViewData["EmailExists"])</p>
+    </div>
+}
+
+@if (errors?.Any() == true)
+{
+    <div class="position-fixed top-50 start-50 translate-middle p-3" style="z-index: 5">
+        <div id="errorToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Errors</strong>
+                <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+
+                int i = 1;
+                <ul class="list-group">
+                    @foreach (var error in errors)
+                    {
+                        <li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-center">
+                            <span>@error.Description</span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Errors
+                        <span class="badge bg-primary rounded-pill">@errors.Count()</span>
+                    </li>
+                </ul>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container w-50 p-3">
+    <form class="row g-3" asp-action="Registration" method="post" id="regForm">
+        <div class="col-md-7">
+            <label for="inputField" class="form-label">Email</label>
+            <input type="email" class="form-control inputField" name="Email" asp-for="Email" placeholder="Email" id="inputEmail">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-5">
+            <label for="inputUsername" class="form-label">Username</label>
+            <input type="text" class="form-control inputField" name="UserName" asp-for="UserName" placeholder="Username" id="inputUsername">
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="col-md-7">
+            <label for="inputField" class="form-label">Full Name</label>
+            <input type="text" class="form-control inputField" name="FullName" asp-for="Email" placeholder="Full Name" id="inputFullName">
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label for="inputPasswordHash" class="form-label">Password</label>
+            <input type="password" class="form-control inputField" name="PasswordHash" asp-for="PasswordHash" placeholder="Password" id="inputPasswordHash">
+            <span asp-validation-for="PasswordHash" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control inputField" name="ConfirmPassword" asp-for="ConfirmPassword" placeholder="ConfirmPassword" id="ConfirmPassword">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label inputField">Address</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label inputField">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label inputField">City</label>
+            <input type="text" class="form-control" id="inputCity">
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label inputField">State</label>
+            <select id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                @foreach (var state in Enum.GetValues(typeof(SocialConnect.Web.Models.Enums.States)))
+                {
+                    <option value="@state">@state</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label inputField">Zip</label>
+            <input type="text" class="form-control" id="inputZip">
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="Gender" asp-for="Gender" id="btnradio1" autocomplete="off" checked="" value="Male">
+                <label class="btn btn-outline-primary" for="btnradio1">Male</label>
+
+                <input type="radio" class="btn-check" name="Gender" asp-for="Gender" id="btnradio2" autocomplete="off" value="Female">
+                <label class="btn btn-outline-primary" for="btnradio2">Female</label>
+
+                <input type="radio" class="btn-check" name="Gender" asp-for="Gender" id="btnradio3" autocomplete="off" value="Other">
+                <label class="btn btn-outline-primary" for="btnradio3">Other</label>
+            </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+            <div class="d-grid gap-2 col-md-6">
+                <button class="btn btn-lg btn-primary" onclick="JqueryValidate()" type="submit">Register</button>
+            </div>
+        </div>
+
+        <div class="col-12 text-center">
+            <p>Already registered? <a href="/Auth/Login">Signin now</a></p>
+        </div>
     </form>
 </div>
+
+@{
+    <script src="~/lib/jquery-validation/dist//jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

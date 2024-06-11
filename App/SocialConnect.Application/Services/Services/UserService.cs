@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SocialConnect.Application.DTOs.User;
-using SocialConnect.Application.NewFolder.IServices;
+using SocialConnect.Application.IServices;
 using SocialConnect.Core.Entities;
 using SocialConnect.Core.IRepos;
 
@@ -15,7 +15,7 @@ namespace SocialConnect.Application.NewFolder.Services
             _userRepository = userRepository;
             _mapper = mapper;
         }
-        public async Task<UserDTO> GetUserById(int userId)
+        public async Task<UserDTO> GetUserByIdAsync(int userId)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user != null)
@@ -57,6 +57,18 @@ namespace SocialConnect.Application.NewFolder.Services
         public Task<UserDTO> UpdateOldUser(UserDTO userDTO)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<UserDTO>> FindUserByNameAsync(string userName)
+        {
+            var users = await _userRepository.GetUserBySearch(userName);
+            var mappedUsers = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                var result = _mapper.Map<UserDTO>(user);
+                mappedUsers.Add(result);
+            }
+            return mappedUsers;
         }
     }
 }

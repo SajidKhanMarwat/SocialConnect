@@ -12,8 +12,8 @@ using SocialConnect.Core.Context;
 namespace SocialConnect.Core.Migrations
 {
     [DbContext(typeof(SocialDbContext))]
-    [Migration("20240512181831_a1")]
-    partial class a1
+    [Migration("20240528113827_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,31 +167,33 @@ namespace SocialConnect.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AcceptedOn")
+                    b.Property<DateTime?>("AcceptedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FriendRequest")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("FriendShipStatus")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsMutual")
+                    b.Property<string>("FriendWithId")
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsRequestPending")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("RejectedOn")
+                    b.Property<DateTime?>("RejectedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedOn")
+                    b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendWithId");
 
                     b.HasIndex("UserId");
 
@@ -210,6 +212,7 @@ namespace SocialConnect.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -229,6 +232,7 @@ namespace SocialConnect.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
@@ -238,6 +242,7 @@ namespace SocialConnect.Core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -276,13 +281,16 @@ namespace SocialConnect.Core.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsLocked")
+                    b.Property<bool?>("IsLocked")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -429,9 +437,17 @@ namespace SocialConnect.Core.Migrations
 
             modelBuilder.Entity("SocialConnect.Core.Entities.Connection", b =>
                 {
+                    b.HasOne("SocialConnect.Core.Entities.User", "FriendWith")
+                        .WithMany()
+                        .HasForeignKey("FriendWithId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SocialConnect.Core.Entities.User", "User")
                         .WithMany("Connections")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("FriendWith");
 
                     b.Navigation("User");
                 });
@@ -448,7 +464,7 @@ namespace SocialConnect.Core.Migrations
             modelBuilder.Entity("SocialConnect.Core.Entities.UserDetail", b =>
                 {
                     b.HasOne("SocialConnect.Core.Entities.User", "User")
-                        .WithMany("UserDetails")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -459,8 +475,6 @@ namespace SocialConnect.Core.Migrations
                     b.Navigation("Connections");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("UserDetails");
                 });
 #pragma warning restore 612, 618
         }
